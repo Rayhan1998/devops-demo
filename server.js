@@ -11,10 +11,19 @@ rollbar.log("Hello world!");
 
 const express = require("express");
 const app = express();
+const path = require("path");
 
 const cors = require("cors");
 app.use(express.json());
 app.use(cors());
-const port = 5050;
+const port = process.env.PORT || 5050;
 
-app.listen(port, () => console.log(`server is up! ${5050}`));
+app.listen(port, () => console.log(`server is up! ${port}`));
+
+// app.get("/api/students", (req, res) => {
+//   res.status(200).send();
+// });
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
