@@ -17,10 +17,8 @@ rollbar.log("Hello world!");
 app.use(express.json());
 app.use(cors());
 
-let student = [];
+let students = [];
 const port = process.env.PORT || 5050;
-
-app.listen(port, () => console.log(`server is up! ${port}`));
 
 // app.get("/api/students", (req, res) => {
 //   res.status(200).send();
@@ -38,4 +36,10 @@ app.post("/api/students", (req, res) => {
     author: "rayhan",
     type: "manual"
   });
+
+  res.status(200).send(students);
 });
+
+app.use(rollbar.errorHandler());
+
+app.listen(port, () => console.log(`server is up! ${port}`));
