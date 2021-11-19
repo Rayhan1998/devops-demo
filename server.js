@@ -31,15 +31,29 @@ app.get("/", (req, res) => {
 app.post("/api/students", (req, res) => {
   let { name } = req.body;
   name = name.trim();
-  students.push(name);
-  rollbar.log("student added succesfully", {
-    author: "rayhan",
-    type: "manual"
+  const index = students.findIndex(studentName => {
+    return studentName === name;
   });
 
-  res.status(200).send(students);
-});
+  try {
+    if (index === -1 && name !== "") {
+      students.push(name);
+      rollbar.log("student added succesfully", {
+        author: "rayhan",
+        type: "manual"
+      });
 
-app.use(rollbar.errorHandler());
+      res.status(200).send(students);
+    } else if (name === "") {
+      rollbar.error("no name given");
+      res.status(400).send("must provide a name");
+    } else {
+      rollbar.error("student does exist");
+      res.status(400).send("that student already exist");
+    }
+  } catch {
+    rollbar.error(err);
+  }
+});
 
 app.listen(port, () => console.log(`server is up! ${port}`));

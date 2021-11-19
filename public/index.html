@@ -46,6 +46,7 @@
         axios
           .post("/api/students", { name: nameInput.value })
           .then(res => {
+            console.log(res);
             putTheThingInTheView(res);
           })
           .catch(err => {
