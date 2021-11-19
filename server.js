@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
 
-app.post("/api/student", (req, res) => {
+app.post("/api/students", (req, res) => {
   let { name } = req.body;
   name = name.trim();
   students.push(name);
