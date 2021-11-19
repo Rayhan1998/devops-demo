@@ -1,3 +1,8 @@
+const express = require("express");
+const app = express();
+const path = require("path");
+const cors = require("cors");
+
 // include and initialize the rollbar library with your access token
 var Rollbar = require("rollbar");
 var rollbar = new Rollbar({
@@ -9,13 +14,10 @@ var rollbar = new Rollbar({
 // record a generic message and send it to Rollbar
 rollbar.log("Hello world!");
 
-const express = require("express");
-const app = express();
-const path = require("path");
-
-const cors = require("cors");
 app.use(express.json());
 app.use(cors());
+
+let student = [];
 const port = process.env.PORT || 5050;
 
 app.listen(port, () => console.log(`server is up! ${port}`));
@@ -26,4 +28,14 @@ app.listen(port, () => console.log(`server is up! ${port}`));
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
+app.post("/api/student", (req, res) => {
+  let { name } = req.body;
+  name = name.trim();
+  students.push(name);
+  rollbar.log("student added succesfully", {
+    author: "rayhan",
+    type: "manual"
+  });
 });
